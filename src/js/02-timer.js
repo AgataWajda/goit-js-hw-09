@@ -10,7 +10,7 @@ const timerDays = document.querySelector("span[data-days]") ;
 const timerHours = document.querySelector("span[data-hours]") ;
 const timerMinutes = document.querySelector("span[data-minutes]") ;
 const timerSeconds = document.querySelector("span[data-seconds]") ;
-
+let timer = null ;
 
 startBtn.setAttribute("disabled", "") ;
 
@@ -31,18 +31,23 @@ const options = {
       else {
         startBtn.removeAttribute("disabled") ;
         startBtn.addEventListener("click" ,() => {
-          const timer = setInterval (() => {
+          clearInterval(timer) ;
+           timer = setInterval (() => {
             const currentDate = new Date() ;
             let equal = selectedDates[0].getTime() - currentDate.getTime() ;
             if(equal < 1000) {
               clearInterval(timer) ;
-            }
-            const dataObj = convertMs(equal) ;
-            let {days, hours, minutes, seconds} = dataObj ;
-            timerDays.textContent = days.toString().padStart(2 , '0') ;
-            timerHours.textContent = hours.toString().padStart(2 , '0') ;
-            timerMinutes.textContent = minutes.toString().padStart(2 , '0') ;
-            timerSeconds.textContent = seconds.toString().padStart(2 , '0') ;
+              timerDays.textContent = "00" ;
+              timerHours.textContent = "00" ;
+              timerMinutes.textContent = "00" ;
+              timerSeconds.textContent = "00" ;
+            } else {
+              const dataObj = convertMs(equal) ;
+              let {days, hours, minutes, seconds} = dataObj ;
+              timerDays.textContent = days.toString().padStart(2 , '0') ;
+              timerHours.textContent = hours.toString().padStart(2 , '0') ;
+              timerMinutes.textContent = minutes.toString().padStart(2 , '0') ;
+              timerSeconds.textContent = seconds.toString().padStart(2 , '0') ;}
           } , 1000)  
           
         })
